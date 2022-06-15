@@ -22,7 +22,8 @@ public class User {
     private Long idUser;
     private String firstName;
     private String lastName;
-    private Integer phoneNumber;
+    private String password;
+    private int phoneNumber;
     private String email;
     @ManyToOne
     @JoinColumn(name = "idRole")
