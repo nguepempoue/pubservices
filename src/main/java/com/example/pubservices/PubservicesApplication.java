@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.example.pubservices.model.Role;
+import com.example.pubservices.model.Sector;
 import com.example.pubservices.model.User;
 import com.example.pubservices.service.RoleService;
+import com.example.pubservices.service.SectorService;
 import com.example.pubservices.service.UserService;
 
 @SpringBootApplication
@@ -24,8 +26,12 @@ public class PubservicesApplication implements CommandLineRunner{
 	}
 
 	@Bean
-	CommandLineRunner run(RoleService roleService, UserService userService){
+	CommandLineRunner run(RoleService roleService, UserService userService, SectorService sectorService){
 		return args ->{
+			sectorService.saveSector(new Sector(null, "batiment"));
+			sectorService.saveSector(new Sector(null, "informatique"));
+			sectorService.saveSector(new Sector(null, "medecine"));
+
 			roleService.saveRole(new Role(null, "Role_ADMIN"));
 			roleService.saveRole(new Role(null, "Role_SUPERVISOR"));
 
@@ -33,13 +39,15 @@ public class PubservicesApplication implements CommandLineRunner{
 			user.setFirstName("julio");
 			user.setLastName("nguepempoue");
 			user.setPassword("123456");
-			user.setEmail("nguepempouejulio@gmail.com");
+			user.setEmail("julio@gmail.com");
 			user.setPhoneNumber(681053332);
 			user.setSector(null);
-
+			
 			Role role = roleService.findByName("Role_ADMIN");
 			user.setRole(role);
-			userService.saveUser(user);
+			userService.saveAdmin(user);
+
+			
 			
 		};
 	}
