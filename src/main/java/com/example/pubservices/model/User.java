@@ -1,5 +1,7 @@
 package com.example.pubservices.model;
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,14 @@ public class User {
     private String password;
     private int phoneNumber;
     private String email;
+    private String token;
+    private Boolean accountIsActivatedByAdm;
+    private Boolean activeAccount;
+    private LocalDateTime tokenConfirmedAt;
+    private LocalDateTime tokenCreatedAt;
+    private LocalDateTime tokenExpiresAt;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
     @ManyToOne
     @JoinColumn(name = "idRole")
     private Role role;

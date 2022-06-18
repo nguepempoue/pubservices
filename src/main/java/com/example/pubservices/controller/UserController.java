@@ -18,11 +18,21 @@ import com.example.pubservices.dto.ProviderBean;
 import com.example.pubservices.model.User;
 import com.example.pubservices.service.MailService;
 import com.example.pubservices.service.UserService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin("*")
 public class UserController {
-    
+
+    String content = "<br>"+
+    "<br>"+
+    "Welcome to PubService !"+
+    "<br>"+
+    "<br>"+
+    "Check your email address to make sure you receive important: ";
+
+        
     @Autowired
     private UserService userService;
 
@@ -35,13 +45,14 @@ public class UserController {
         if(useDB != null){
             throw new IllegalStateException("User already exists !");
         }
-
+        User savedUser = this.userService.saveProvider(provider);
+        String  link = ("http://localhost:4200/login/activate/" + savedUser.getIdUser());
         MailBean mail = new MailBean();
-        mail.setTo(provider.getEmail());
+        mail.setTo(savedUser.getEmail());
         mail.setSubject("activate account");
-        mail.setBody("content of test b2i mail");
+        mail.setBody(mailService.buildEmail("Verify your email address",content,"Verify my email", savedUser.getFirstName(), link).toString());
         mailService.sendMail(mail);
-        return new ResponseEntity<>(this.userService.saveProvider(provider), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     @PutMapping(path="/update")
@@ -55,6 +66,20 @@ public class UserController {
          return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/confirmToken")
+    public ResponseEntity<User> confirmToken(@RequestParam("activated") String activated) {
+      return new ResponseEntity<>(userService.confirmToken(activated), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/email")
+    public ResponseEntity<User> findByEmail(@RequestParam("email") String email) {
+      return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/id")
+    public ResponseEntity<User> findById(@RequestParam("id") Long id) {
+      return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+    }
 
     
 }
