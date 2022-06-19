@@ -13,7 +13,7 @@ import com.example.pubservices.service.MailService;
 
 @RestController
 @RequestMapping("mail")
-@CrossOrigin("*")
+// @CrossOrigin("*")
 public class MailController {
 
     @Autowired

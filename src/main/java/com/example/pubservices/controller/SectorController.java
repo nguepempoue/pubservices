@@ -20,7 +20,7 @@ import com.example.pubservices.service.SectorService;
 
 @RestController
 @RequestMapping("sector")
-@CrossOrigin("*")
+// @CrossOrigin("*")
 public class SectorController {
     
     @Autowired

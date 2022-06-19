@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("user")
-@CrossOrigin("*")
+// @CrossOrigin("*")
 public class UserController {
 
     String content = "<br>"+
